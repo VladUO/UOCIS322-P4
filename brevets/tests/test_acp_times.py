@@ -37,12 +37,13 @@ def test_300():
     assert open_time(200, 300, time) == arrow.get('2021-01-01T06:54', 'YYYY-MM-DDTHH:mm')
     assert close_time(200, 300, time) == arrow.get('2021-01-01T14:21', 'YYYY-MM-DDTHH:mm')
 
+    assert open_time(290, 400, time) == arrow.get('2021-01-01T09:43', 'YYYY-MM-DDTHH:mm')
+    assert close_time(290, 400, time) == arrow.get('2021-01-01T20:21', 'YYYY-MM-DDTHH:mm') 
+
     assert open_time(300, 300, time) == arrow.get('2021-01-01T10:01', 'YYYY-MM-DDTHH:mm')
     assert close_time(300, 300, time) == arrow.get('2021-01-01T21:01', 'YYYY-MM-DDTHH:mm') 
 
-    assert open_time(330, 400, time) == arrow.get('2021-01-01T10:01', 'YYYY-MM-DDTHH:mm')
-    assert close_time(330, 400, time) == arrow.get('2021-01-01T21:01', 'YYYY-MM-DDTHH:mm')    
-
+    
 def test_400():
     assert open_time(200, 400, time) == arrow.get('2021-01-01T06:54', 'YYYY-MM-DDTHH:mm')
     assert close_time(200, 400, time) == arrow.get('2021-01-01T14:21', 'YYYY-MM-DDTHH:mm')

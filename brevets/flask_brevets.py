@@ -51,15 +51,30 @@ def _calc_times():
     """
     app.logger.debug("Got a JSON request")
     km = request.args.get('km', 999, type=float)
+    print("Current checkpoint: ", km)    
     app.logger.debug("km={}".format(km))
     app.logger.debug("request.args: {}".format(request.args))
+    
+    brevet_dist_km = request.args.get('brevet_dist_km', 1000, type=float)             #getting the brevit distance from the html
+    # print("Brevet distance: ", brevet_dist_km)                                        #printing it out to make sure its right              
+
+    brevet_start_time = request.args.get('brevet_start_time', arrow.now(), type=str)  #getting the brevit start time from the html                   
+    # print("Brevet start time: ", brevet_start_time)                                   #printing it out to make sure its right          
+    
+    brevet_start_time = arrow.get(brevet_start_time, 'YYYY-MM-DDTHH:mm')              #parsing the string into an arrow
+    # print("Brevet start time: ", brevet_start_time)                                   #printing it out to make sure its right      
+    
     # FIXME!
     # Right now, only the current time is passed as the start time
     # and control distance is fixed to 200
     # You should get these from the webpage!
-    open_time = acp_times.open_time(km, 200, arrow.now().isoformat).format('YYYY-MM-DDTHH:mm')
-    close_time = acp_times.close_time(km, 200, arrow.now().isoformat).format('YYYY-MM-DDTHH:mm')
+
+    # calling the functions in acp_times using the data we received from the html
+    open_time = acp_times.open_time(km, brevet_dist_km, brevet_start_time).format('YYYY-MM-DDTHH:mm')
+    close_time = acp_times.close_time(km, brevet_dist_km, brevet_start_time).format('YYYY-MM-DDTHH:mm')
     result = {"open": open_time, "close": close_time}
+    print("RESULT:", result)         #this is just to make sure the result is correct
+    
     return flask.jsonify(result=result)
 
 

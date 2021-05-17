@@ -123,16 +123,26 @@
               var km = control.find("input[name='km']").val();
               var open_time_field = control.find("input[name='open']");
               var close_time_field = control.find("input[name='close']");
-
-              $.getJSON(TIME_CALC_URL, {km: km}).done(
+              
+              var brevet_dist_km = $("#brevet_dist_km").val();   //pulling out the brevet distance using id
+              console.log(brevet_dist_km);                       //making sure its correct
+             
+              var brevet_start_time = $("#begin_date").val();     //pulling the starting time/date using id
+              console.log(brevet_start_time);                     //makig sure its correct            
+               
+              //now passing in the brevet distance, start time and checkpoint value as part of the JSON request
+              $.getJSON(TIME_CALC_URL, {brevet_dist_km: brevet_dist_km, brevet_start_time: brevet_start_time, km: km}).done(
                 function(data) {
                    var times = data.result;
                    console.log("Got a response: ");
                    console.log("Response.open = " + times.open);
+                   console.log("Response.close = " + times.close);
                    // This part will automatically fill the open and close slots,
                    // so don't worry about those.
                    open_time_field.val(moment(times.open).format("YYYY-MM-DDTHH:mm"));
                    close_time_field.val(moment(times.close).format("YYYY-MM-DDTHH:mm"));
+                  //  open_time_field.val(moment(times.open).format("YYYY-MM-DDTHH:mm"));
+                  //  close_time_field.val(moment(times.close).format("YYYY-MM-DDTHH:mm"));
                  }
                ).fail(function(err){
                  // In case you get an error...
